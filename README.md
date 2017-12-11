@@ -1,30 +1,22 @@
-# vue-demo
+# optimat-vuejs
 
-> A Vue.js project
+> 一个基于Vuejs+Webpack定义了开发规范的网页开发框架。
 
 ## Build Setup
 
 ``` bash
-# install dependencies
+# 安装
 npm install
 
-# serve with hot reload at localhost:8080
+# 在开发环境运行，url = localhost:8080
 npm run dev
 
-# build for production with minification
+# 编译项目
 npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
+# 快速创建Module和Component
+修改 /easyGen/config.json 文件。
+配置文件内容为Json字符串。
+"modules": [{"page-title": "页面标题","url-path": "页面访问时的相对路径"}]
+"components": [{"import-path": "引用组件的相对位置"}]
 
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
