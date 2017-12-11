@@ -29,13 +29,13 @@ config.json文件内容为Json字符串。
 |--- easyGen // 快速创建Module和Component的工具
 |--- dist // 编译后的文件
 |--- src
-	|--- api // 接口的封装
-	|--- assets // 网页中的静态资源
-	|--- components // 组件
-	  |--- index.js // 组件中vue单文件的js引用
-	  |--- index.scss // 组件中vue单文件的样式引用
-	  |--- index.vue // 组件中vue单文件
-	|--- module // 页面
+  |--- api // 接口的封装
+  |--- assets // 网页中的静态资源
+  |--- components // 组件
+    |--- index.js // 组件中vue单文件的js引用
+    |--- index.scss // 组件中vue单文件的样式引用
+    |--- index.vue // 组件中vue单文件
+  |--- module // 页面
     |--- config.json // 页面的配置文件
     |--- index.json // 入口文件，可自定义（自定义后在对应配置文件中修改module-entry字段）
     |--- module.js // 页面中默认vue单文件的js引用
