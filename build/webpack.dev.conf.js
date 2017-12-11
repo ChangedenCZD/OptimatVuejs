@@ -12,7 +12,7 @@ const srcDir = path.resolve(__dirname, '../src');
 const pagePlugins = baseWebpackConfig.plugins;
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
-    rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
+    rules: utils.styleLoaders({sourceMap: config.dev.cssSourceMap, usePostCSS: true})
   },
   // cheap-module-eval-source-map is faster for development
   devtool: config.dev.devtool,
@@ -43,6 +43,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
     new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.optimize.ModuleConcatenationPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
     // new HtmlWebpackPlugin({
     //   filename: 'index.html',
@@ -76,26 +77,27 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 pagePlugins.forEach((plugin) => {
   devWebpackConfig.plugins.push(plugin);
 });
-module.exports = new Promise((resolve, reject) => {
-  portfinder.basePort = process.env.PORT || config.dev.port;
-  portfinder.getPort((err, port) => {
-    if (err) {
-      reject(err);
-    } else {
-      // publish the new Port, necessary for e2e tests
-      process.env.PORT = port;
-      // add port to devServer config
-      devWebpackConfig.devServer.port = port;
-      // Add FriendlyErrorsPlugin
-      devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
-        compilationSuccessInfo: {
-          messages: [`Your application is running here: http://${config.dev.host}:${port}`],
-        },
-        onErrors: config.dev.notifyOnErrors
-          ? utils.createNotifierCallback()
-          : undefined
-      }));
-      resolve(devWebpackConfig);
-    }
-  });
-});
+module.exports = devWebpackConfig;
+// module.exports = new Promise((resolve, reject) => {
+//   portfinder.basePort = process.env.PORT || config.dev.port;
+//   portfinder.getPort((err, port) => {
+//     if (err) {
+//       reject(err);
+//     } else {
+//       // publish the new Port, necessary for e2e tests
+//       process.env.PORT = port;
+//       // add port to devServer config
+//       devWebpackConfig.devServer.port = port;
+//       // Add FriendlyErrorsPlugin
+//       devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
+//         compilationSuccessInfo: {
+//           messages: [`Your application is running here: http://${config.dev.host}:${port}`],
+//         },
+//         onErrors: config.dev.notifyOnErrors
+//           ? utils.createNotifierCallback()
+//           : undefined
+//       }));
+//       resolve(devWebpackConfig);
+//     }
+//   });
+// });
