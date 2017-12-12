@@ -1,5 +1,0 @@
-{
-  "module-entry": "alipay.js",
-  "redirect-url": "/user/bankcard/alipay",
-  "page-title": "绑定支付宝"
-}

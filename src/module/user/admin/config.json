@@ -1,5 +1,0 @@
-{
-  "module-entry": "admin.js",
-  "redirect-url": "/user/admin",
-  "page-title": "管理员"
-}
