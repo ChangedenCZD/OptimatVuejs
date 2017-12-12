@@ -6,45 +6,13 @@ const vueLoaderConfig = require('./vue-loader.conf');
 const glob = require('glob');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const srcDir = path.resolve(__dirname, '../src');
-// const entries = getEntry(srcDir + '/module/**/*.html');
-let entriesParser = getEntry2(srcDir + '/module/**/config.json');
+let entriesParser = getEntry(srcDir + '/module/**/config.json');
 let entries = entriesParser[0];
 let modulePageTitleList = entriesParser[1] || {};
-
-/**提取文件路径,同名缩进一级*/
-function extracted(filePath, filename, ext) {
-  let key = 'src/module/';
-  let file = filename + '.' + ext;
-  let rootPath = filePath.substring(filePath.indexOf(key) + key.length, filePath.indexOf(file));
-  let pathList = [];
-  rootPath.split('/').forEach((item) => {
-    if (item) {
-      pathList.push(item);
-    }
-  });
-  if (pathList.length > 0 && pathList[pathList.length - 1] === filename) {
-    pathList[pathList.length - 1] = '';
-    rootPath = pathList.join('/');
-  }
-  // console.log('相对路径 => ' + rootPath + file);
-  return rootPath;
-}
+let dirname = __dirname;
 
 // 获取入口文件
 function getEntry(globPath) {
-  let entries = {}, filename;
-  glob.sync(globPath).forEach(function (filePath) {
-    filePath = filePath.replace(/.html/, '.js');
-    filename = path.basename(filePath, path.extname(filePath));
-    let rootPath = extracted(filePath, filename, 'js');
-    filename = rootPath + filename;
-    entries[filename] = filePath;
-  });
-  return entries;
-}
-
-// 获取入口文件
-function getEntry2(globPath) {
   let entries = {}, modulePageTitleList = {};
   glob.sync(globPath).forEach(function (filePath) {
     let config = require(filePath);
@@ -56,38 +24,12 @@ function getEntry2(globPath) {
     entries[redirectUrl] = filePath.substr(0, filePath.lastIndexOf('/') + 1) + moduleEntry;
     modulePageTitleList[redirectUrl] = pageTitle;
   });
+  genEntriesInfoFile(entries, modulePageTitleList);
   return [entries, modulePageTitleList];
 }
 
+// 生成Html文件
 function createHtml() {
-  let r = [], filename, conf;
-  glob.sync(srcDir + '/module/**/*.html').forEach(function (filePath) {
-    filename = path.basename(filePath, path.extname(filePath));
-    let rootPath = extracted(filePath, filename, 'html');
-    conf = {
-      filename: rootPath + filename + '.html',
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
-      },
-      chunksSortMode: 'dependency',
-      template: filePath,
-      timestamp: new Date().toLocaleString()
-    };
-    let rootFileName = rootPath + filename;
-    if (rootFileName in entries) {
-      conf.inject = 'body';
-      conf.chunks = ['vendor', 'manifest', rootFileName];
-    }
-    r.push(new HtmlWebpackPlugin(conf));
-  });
-  return r;
-}
-
-function createHtml2() {
   let r = [], conf;
   Object.keys(entries).forEach((key) => {
     conf = {
@@ -109,62 +51,32 @@ function createHtml2() {
   return r;
 }
 
-/*
- // 获取入口文件
- function getEntry(globPath) {
- let entries = {},
- filename;
- glob.sync(globPath).forEach(function (entry) {
- filename = path.basename(entry, path.extname(entry));
- let key = 'src/module/';
- let rootPath = entry.substring(entry.indexOf(key) + key.length, entry.indexOf(filename + '.js'));
- let lastIndex = rootPath.indexOf(filename);
- if (lastIndex > 0) {
- rootPath = rootPath.substring(0, rootPath.indexOf(filename));
- }
- filename = rootPath + filename;
- entries[filename] = entry;
- });
- return entries;
- }
- */
-// 生成html
-// function createHtml() {
-//   let r = [], filename, conf;
-//
-//   glob.sync(srcDir + '/module/**/*.html').forEach(function (filePath) {
-//     filename = path.basename(filePath, path.extname(filePath));
-//     let key = 'src/module/';
-//     let rootPath = filePath.substring(filePath.indexOf(key) + key.length, filePath.indexOf(filename + '.html'));
-//     let lastIndex = rootPath.indexOf(filename);
-//     if (lastIndex > 0) {
-//       rootPath = rootPath.substring(0, rootPath.indexOf(filename));
-//     }
-//     conf = {
-//       filename: rootPath + filename + '.html',
-//       minify: {
-//         removeComments: true,
-//         collapseWhitespace: true,
-//         removeAttributeQuotes: true
-//       },
-//       chunksSortMode: 'dependency'
-//     }
-//     let rootFileName = rootPath + filename;
-//     if (rootFileName in entries) {
-//       conf.inject = 'body';
-//       conf.chunks = ['vendor', 'manifest', rootFileName];
-//     }
-//     r.push(new HtmlWebpackPlugin(conf))
-//   })
-//
-//   return r;
-// }
+function genEntriesInfoFile(entries, modulePageTitleList) {
+  setTimeout(() => {
+    let entryArray = {};
+    Object.keys(entries).forEach(key => {
+      let filePath = entries[key] || '';
+      if (typeof filePath === 'object') {
+        filePath = filePath[filePath.length - 1];
+      }
+      entryArray[key] = {
+        relativeUrl: `${key || ''}.html`,
+        filePath: filePath,
+        pageTitle: modulePageTitleList[key] || ''
+      };
+    });
+    require('fs').writeFile(`${resolve('')}/PagesInfo.json`, JSON.stringify(entryArray), 'utf8', err => {
+      if (err) console.error(err);
+    });
+  }, 1);
+}
+
 function resolve(dir) {
-  return path.join(__dirname, '..', dir);
+  return path.join(dirname, '..', dir);
 }
 
 module.exports = {
-  context: path.resolve(__dirname, '../'),
+  context: path.resolve(dirname, '../'),
   entry: entries,
   output: {
     path: config.build.assetsRoot,
@@ -178,9 +90,9 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
-      'src': path.resolve(__dirname, '../src'),
-      'assets': path.resolve(__dirname, '../src/assets'),
-      'components': path.resolve(__dirname, '../src/components')
+      'src': resolve('src'),
+      'assets': resolve('src/assets'),
+      'components': resolve('src/components')
     }
   },
   module: {
@@ -231,5 +143,5 @@ module.exports = {
       }
     ]
   },
-  plugins: createHtml2(),
+  plugins: createHtml(),
 };
