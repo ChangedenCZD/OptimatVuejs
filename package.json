@@ -19,6 +19,7 @@
   "author": "Changeden",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.17.1",
     "babel-preset-es2015": "^6.24.1",
     "co": "^4.6.0",
     "es6-promise": "^4.1.1",
