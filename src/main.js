@@ -3,7 +3,6 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from './store/index';
 import BaseClass from './lib/BaseClass';
-import {BaseModule, mapActions, mapGetters} from './lib/BaseModule';
 import BrowserUtils from './utils/BrowserUtils';
 
 const router = new VueRouter({mode: 'history'});
@@ -44,8 +43,5 @@ module.exports = {
   beforeCreate: beforeCreate,
   Vue: Vue,
   Entry: Entry,
-  BaseModule: BaseModule,
-  mapGetters: mapGetters,
-  mapActions: mapActions,
   createEntry: createEntry
 };
