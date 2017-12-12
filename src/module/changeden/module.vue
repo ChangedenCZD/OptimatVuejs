@@ -1,7 +1,5 @@
 <template>
-  <section class="main-layout index-index-layout">
-    <ToastLayout></ToastLayout>
-    <LoadingLayout></LoadingLayout>
+  <section class="main-layout changeden-layout">
   </section>
 </template>
 

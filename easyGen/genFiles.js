@@ -88,7 +88,7 @@ function genModules(modules) {
           'input': `${TEMPLATE_MODULE_FILE_PATH}module.js`,
           'output': `${fullPath}/module.js`,
           'regs': {
-            '../../api/index': `${parentPath}api/index`
+            '../../api': `${parentPath}api`
           }
         },
         {
@@ -122,7 +122,7 @@ function genComponents(components) {
           'input': `${TEMPLATE_COMPONENT_FILE_PATH}index.js`,
           'output': `${outputFilePath}js`,
           'regs': {
-            '../../api/index': `${parentPath}api/index`
+            '../../lib/BaseModule': `${parentPath}lib/BaseModule`
           }
         },
         {

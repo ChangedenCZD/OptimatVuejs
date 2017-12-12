@@ -1,46 +1,41 @@
-import api from '../../../api/index';
-import co from 'co';
-import {mapGetters, mapActions} from 'vuex';
 import ToastLayout from '../../../components/ui/toastLayout/index.vue';
 import LoadingLayout from '../../../components/ui/loadingLayout/index.vue';
+import {BaseModule, mapGetters, mapActions} from '../../../main';
 
-const components = {ToastLayout, LoadingLayout};
-const data = {};
-const watch = {};
-const methods = {
-  ...mapActions(['showToast', 'hideToast', 'showLoading', 'hideLoading'])
-};
-const computed = {
-  ...mapGetters({
-    appConfig: 'appConfig'
-  })
-};
-export default {
-  data() {
-    return data;
-  },
-  created() {
+class Module extends BaseModule {
+  constructor() {
+    super();
+    this.setComponent({ToastLayout, LoadingLayout});
+    this.setMethod({
+      ...mapActions(['showToast', 'hideToast', 'showLoading', 'hideLoading'])
+    });
+    this.setCompute({
+      ...mapGetters({})
+    });
+  }
+
+  getData() {
+    return {};
+  }
+
+  onCreate() {
     let self = this;
-    self.$nextTick(() => {
-      api.demo().then((data) => {
+    self.app.$nextTick(() => {
+      self.Api.demo(1).then((data) => {
         console.log(data);
-        self.showToast({
+        self.app.showToast({
           content: '请求成功',
           duration: 2500
         });
       }).catch((err) => {
         console.error(err);
-        self.showToast({
+        self.app.showToast({
           content: '请求错误',
           duration: 1400
         });
       });
     });
-  },
-  mounted() {
-  },
-  watch,
-  methods,
-  components,
-  computed
-};
+  }
+}
+
+module.exports = Module;

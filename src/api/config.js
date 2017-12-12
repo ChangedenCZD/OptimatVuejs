@@ -16,8 +16,8 @@ function Options(url, data, method) {
 }
 
 module.exports = {
-  demo: () => {
-    return new Options(ApiSet.DEMO, {per_page: 1}, GET);
+  demo: (page) => {
+    return new Options(ApiSet.DEMO, {per_page: page}, GET);
   }
   // insert api config
 };

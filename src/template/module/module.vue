@@ -6,5 +6,6 @@
 <script>
   import './module.scss';
 
-  export default require('./module');
+  const Module = require('./module');
+  export default new Module();
 </script>

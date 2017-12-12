@@ -11,5 +11,6 @@
 <script>
   import './index.scss';
 
-  export default require('./index');
+  const Component = require('./index');
+  export default new Component();
 </script>

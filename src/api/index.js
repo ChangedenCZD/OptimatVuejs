@@ -37,8 +37,8 @@ function request(options) {
 }
 
 module.exports = {
-  demo: () => {
-    return request(CONFIG.demo());
+  demo: (page) => {
+    return request(CONFIG.demo(page));
   }
   // insert api
 };

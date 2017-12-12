@@ -21,6 +21,36 @@ config.json文件内容为Json字符串。
 "components": [{"import-path": "引用组件的相对位置"}]
 编辑完并保存config.json文件后，运行easyGen.bat即可。
 
+# 接口封装规范
+```js
+|--- api
+  |--- config.js
+    |--- ApiSet // 添加接口请求Url
+    |--- Options // 将一些参数封装成axios能直接调用的options
+    |--- module.exports = { // 公开的接口配置
+           demo: (page) => { // 接口配置样例
+             return new Options(ApiSet.DEMO, {per_page: page}, GET);
+           }
+         }
+  |--- index.js
+    |--- const CONFIG = require('./config') // 导入接口配置
+    |--- function request(options) { ... } // 使用axios封装请求，返回一个Promise
+    |--- module.exports = { // 公开的可调用接口
+           demo: (page) => { // 接口样例
+             return request(CONFIG.demo(page));
+           }
+         }
+```
+# 接口使用方法
+```js
+import api from '../api'; // 导入接口
+api.demo(1).then((data) => {
+  // 调用成功
+}).catch((err) => {
+  // 调用失败
+});
+```
+
 # 目录结构
 
 ```js

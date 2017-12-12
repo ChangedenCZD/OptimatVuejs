@@ -1,28 +1,28 @@
-import api from '../../api/index';
-import co from 'co';
-import { mapGetters, mapActions } from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
+import BaseModule from '../../lib/BaseModule';
 
-const components = {};
-const data = {};
-const watch = {};
-const methods = {
-  ...mapActions(['showToast'])
-};
-const computed = {
-  ...mapGetters({
-    appConfig: 'appConfig'
-  })
-};
-export default {
-  data() {
-    return data;
-  },
-  created() {
-  },
-  mounted() {
-  },
-  watch,
-  methods,
-  components,
-  computed
-};
+class Component extends BaseModule {
+  constructor() {
+    super();
+    this.setComponent({});
+    this.setMethod({
+      ...mapActions([])
+    });
+    this.setCompute({
+      ...mapGetters({})
+    });
+    this.setWatch({});
+  }
+
+  getData() {
+    return {};
+  }
+
+  onCreate() {
+  }
+
+  onMount() {
+  }
+}
+
+module.exports = Component;
