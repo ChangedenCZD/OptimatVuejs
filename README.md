@@ -21,34 +21,47 @@ config.json文件内容为Json字符串。
 "components": [{"import-path": "引用组件的相对位置"}]
 编辑完并保存config.json文件后，运行easyGen.bat即可。
 
-# 接口封装规范
+# Api组件封装规范
 ```js
 |--- api
   |--- config.js
     |--- ApiSet // 添加接口请求Url
-    |--- Options // 将一些参数封装成axios能直接调用的options
     |--- module.exports = { // 公开的接口配置
            demo: (page) => { // 接口配置样例
-             return new Options(ApiSet.DEMO, {per_page: page}, GET);
+             return new ApiOptions(ApiSet.DEMO, {per_page: page}, GET);
            }
          }
   |--- index.js
     |--- const CONFIG = require('./config') // 导入接口配置
-    |--- function request(options) { ... } // 使用axios封装请求，返回一个Promise
     |--- module.exports = { // 公开的可调用接口
            demo: (page) => { // 接口样例
-             return request(CONFIG.demo(page));
+             return CONFIG.demo(page).request();
            }
          }
 ```
 # 接口使用方法
+### 直接导入Api
 ```js
-import api from '../api'; // 导入接口
-api.demo(1).then((data) => {
+import api from './api'; // 导入接口
+api.demo(1).then(data => {
   // 调用成功
-}).catch((err) => {
+}).catch(err => {
   // 调用失败
 });
+```
+### BaseClass子类
+```js
+import BaseClass from './lib/BaseClass';
+class Module extends BaseClass {
+  constructor() {
+    super();
+    this.Api.demo(1).then(data => {
+      // 调用成功
+    }).catch(err => {
+      // 调用失败
+    })
+  }
+}
 ```
 
 # 目录结构
@@ -59,12 +72,16 @@ api.demo(1).then((data) => {
 |--- easyGen // 快速创建Module和Component的工具
 |--- dist // 编译后的文件
 |--- src
-  |--- api // 接口的封装
+  |--- api // Api组件
   |--- assets // 网页中的静态资源
   |--- components // 组件
     |--- index.js // 组件中vue单文件的js引用
     |--- index.scss // 组件中vue单文件的样式引用
     |--- index.vue // 组件中vue单文件
+  |--- lib // 有关class封装
+    |--- ApiOptions.js // Api参数封装类，内部包含request方法
+    |--- BaseClass.js // 基类，内部引入了Api组件
+    |--- BaseModule.js // Module的基类，继承于BaseClass，实现了Vue的部分生命周期
   |--- module // 页面
     |--- config.json // 页面的配置文件（包含入口文件字段module-entry，页面标题字段page-title，相对网页访问路径字段redirect-url）
     |--- index.json // 入口文件，可自定义（自定义后在对应配置文件中修改module-entry字段）
