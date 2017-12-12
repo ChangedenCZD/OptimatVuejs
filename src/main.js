@@ -2,9 +2,8 @@ import 'es6-promise/auto';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from './store/index';
-import {mapActions, mapGetters} from 'vuex';
 import BaseClass from './lib/BaseClass';
-import BaseModule from './lib/BaseModule';
+import {BaseModule, mapActions, mapGetters} from './lib/BaseModule';
 import BrowserUtils from './utils/BrowserUtils';
 
 const router = new VueRouter({mode: 'history'});

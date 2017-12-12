@@ -1,4 +1,4 @@
-import {BaseModule, mapGetters, mapActions} from '../../main';
+import {BaseModule, mapGetters, mapActions} from '../../lib/BaseModule';
 
 class Module extends BaseModule {
   constructor() {

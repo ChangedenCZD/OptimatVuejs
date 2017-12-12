@@ -1,6 +1,6 @@
 import ToastLayout from '../../../components/ui/toastLayout/index.vue';
 import LoadingLayout from '../../../components/ui/loadingLayout/index.vue';
-import {BaseModule, mapGetters, mapActions} from '../../../main';
+import {BaseModule, mapGetters, mapActions} from '../../../lib/BaseModule';
 
 class Module extends BaseModule {
   constructor() {

@@ -88,7 +88,7 @@ function genModules(modules) {
           'input': `${TEMPLATE_MODULE_FILE_PATH}module.js`,
           'output': `${fullPath}/module.js`,
           'regs': {
-            '../../api': `${parentPath}api`
+            '../../lib/BaseModule': `${parentPath}lib/BaseModule`
           }
         },
         {

@@ -1,6 +1,5 @@
 import BrowserUtils from '../../../utils/BrowserUtils';
-import {mapActions, mapGetters} from 'vuex';
-import BaseModule from '../../../lib/BaseModule';
+import {BaseModule, mapActions, mapGetters} from '../../../lib/BaseModule';
 
 class Component extends BaseModule {
   constructor() {

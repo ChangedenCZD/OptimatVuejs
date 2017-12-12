@@ -1,4 +1,5 @@
 import BaseClass from './BaseClass';
+import {mapActions, mapGetters} from 'vuex';
 
 class BaseModule extends BaseClass {
   constructor() {
@@ -47,4 +48,6 @@ class BaseModule extends BaseClass {
   }
 }
 
-module.exports = BaseModule;
+module.exports = {
+  BaseModule, mapActions, mapGetters
+};
