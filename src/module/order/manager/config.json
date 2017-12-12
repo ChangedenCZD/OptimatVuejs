@@ -1,0 +1,5 @@
+{
+  "module-entry": "manager.js",
+  "redirect-url": "/order/manager",
+  "page-title": "订单中心"
+}

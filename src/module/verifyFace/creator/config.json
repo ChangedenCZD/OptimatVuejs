@@ -1,0 +1,5 @@
+{
+  "module-entry": "creator.js",
+  "redirect-url": "/verifyFace/creator",
+  "page-title": "实人认证"
+}

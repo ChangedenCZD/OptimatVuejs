@@ -1,0 +1,5 @@
+{
+  "module-entry": "feedback.js",
+  "redirect-url": "/user/feedback",
+  "page-title": "意见反馈"
+}

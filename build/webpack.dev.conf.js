@@ -4,12 +4,15 @@ const webpack = require('webpack');
 const config = require('../config');
 const merge = require('webpack-merge');
 const baseWebpackConfig = require('./webpack.base.conf');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
-const portfinder = require('portfinder');
-const path = require('path');
-const srcDir = path.resolve(__dirname, '../src');
-const pagePlugins = baseWebpackConfig.plugins;
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
+// const portfinder = require('portfinder');
+// const path = require('path');
+// const srcDir = path.resolve(__dirname, '../src');
+// const pagePlugins = baseWebpackConfig.plugins;
+Object.keys(baseWebpackConfig.entry).forEach(function (name) {
+  baseWebpackConfig.entry[name] = ['./build/dev-client'].concat(baseWebpackConfig.entry[name]);
+});
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({sourceMap: config.dev.cssSourceMap, usePostCSS: true})
@@ -74,9 +77,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 //     timestamp: new Date().toLocaleString()
 //   }));
 // });
-pagePlugins.forEach((plugin) => {
-  devWebpackConfig.plugins.push(plugin);
-});
+// pagePlugins.forEach((plugin) => {
+//   devWebpackConfig.plugins.push(plugin);
+// });
 module.exports = devWebpackConfig;
 // module.exports = new Promise((resolve, reject) => {
 //   portfinder.basePort = process.env.PORT || config.dev.port;

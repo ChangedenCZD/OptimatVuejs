@@ -1,0 +1,5 @@
+{
+  "module-entry": "detail.js",
+  "redirect-url": "/counter/detail",
+  "page-title": "柜台"
+}

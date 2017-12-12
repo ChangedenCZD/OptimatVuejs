@@ -1,0 +1,5 @@
+{
+  "module-entry": "coupon.js",
+  "redirect-url": "/user/coupon",
+  "page-title": "优惠券"
+}

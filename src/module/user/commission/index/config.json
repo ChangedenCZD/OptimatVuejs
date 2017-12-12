@@ -1,0 +1,5 @@
+{
+  "module-entry": "index.js",
+  "redirect-url": "/user/commission/index",
+  "page-title": "我的佣金"
+}

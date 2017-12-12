@@ -1,0 +1,5 @@
+{
+  "module-entry": "services.js",
+  "redirect-url": "/user/customer/services",
+  "page-title": "在线客服"
+}

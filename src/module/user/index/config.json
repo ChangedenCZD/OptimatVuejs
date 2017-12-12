@@ -1,0 +1,5 @@
+{
+  "module-entry": "index.js",
+  "redirect-url": "/user/index",
+  "page-title": "版本选择"
+}

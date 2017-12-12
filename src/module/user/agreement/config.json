@@ -1,0 +1,5 @@
+{
+  "module-entry": "agreement.js",
+  "redirect-url": "/user/agreement",
+  "page-title": "用户协议"
+}

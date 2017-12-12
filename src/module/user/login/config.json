@@ -1,0 +1,5 @@
+{
+  "module-entry": "login.js",
+  "redirect-url": "/user/login",
+  "page-title": "登录"
+}

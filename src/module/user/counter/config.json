@@ -1,0 +1,5 @@
+{
+  "module-entry": "counter.js",
+  "redirect-url": "/user/counter",
+  "page-title": "微柜台"
+}

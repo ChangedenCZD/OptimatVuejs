@@ -1,0 +1,5 @@
+{
+  "module-entry": "income.js",
+  "redirect-url": "/user/income",
+  "page-title": "我的收入"
+}
