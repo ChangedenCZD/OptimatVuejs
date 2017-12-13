@@ -2,6 +2,7 @@
 
 > 一个基于Vuejs+Webpack定义了开发规范的网页开发框架。
 
+[更新日志](/CHANGE_LOGS.md)
 ## Build Setup
 
 ``` bash
@@ -25,17 +26,14 @@ config.json文件内容为Json字符串。
 ```js
 |--- api
   |--- config.js
-    |--- ApiSet // 添加接口请求Url
-    |--- module.exports = { // 公开的接口配置
-           demo: (page) => { // 接口配置样例
-             return new ApiOptions(ApiSet.DEMO, {per_page: page}, GET);
-           }
+    |--- module.exports = { // 添加接口Url
+           DEMO: 'https://api.github.com/repos/axios/axios/issues'
          }
   |--- index.js
-    |--- const CONFIG = require('./config') // 导入接口配置
+    |--- const config = require('./config') // 导入接口配置
     |--- module.exports = { // 公开的可调用接口
            demo: (page) => { // 接口样例
-             return CONFIG.demo(page).request();
+             return new ApiOptions(config.DEMO, {per_page: page}, GET).request();
            }
          }
 ```
