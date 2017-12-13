@@ -19,6 +19,11 @@ class BaseModule extends BaseClass {
     this.methods = {};
     this.components = {};
     this.computed = {};
+    this.props = [];
+  }
+
+  setProps(props) {
+    this.props = props;
   }
 
   getData() {

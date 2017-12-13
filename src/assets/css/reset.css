@@ -74,8 +74,6 @@ textarea {
 }
 
 input, select, textarea, button {
-  font-family: 'Microsoft Yahei', 'LatoRegular', helvetica;
-  color: #989898;
   height: auto;
 }
 
