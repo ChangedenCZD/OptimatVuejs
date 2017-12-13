@@ -5,6 +5,7 @@ import store from './store/index';
 import BaseClass from './lib/BaseClass';
 import BrowserUtils from './utils/BrowserUtils';
 
+Vue.use(VueRouter);
 const router = new VueRouter({mode: 'history'});
 require('assets/css/reset.css');
 
