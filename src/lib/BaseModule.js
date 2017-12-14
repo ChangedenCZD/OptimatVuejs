@@ -15,6 +15,9 @@ class BaseModule extends BaseClass {
     this.mounted = function () {
       self.onMount(self.app = this);
     };
+    this.updated = function () {
+      self.onUpdate(self.app = this);
+    };
     this.watch = {};
     this.methods = {};
     this.components = {};
@@ -34,6 +37,9 @@ class BaseModule extends BaseClass {
   }
 
   onMount() {
+  }
+
+  onUpdate() {
   }
 
   setWatch(options) {
