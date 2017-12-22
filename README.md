@@ -78,7 +78,7 @@ class Module extends BaseClass {
     |--- index.vue // 组件中vue单文件
   |--- lib // 有关class封装
     |--- ApiOptions.js // Api参数封装类，内部包含request方法
-    |--- BaseClass.js // 基类，内部引入了Api组件
+    |--- Context.js // 基类，内部引入了Api组件
     |--- BaseModule.js // Module的基类，继承于BaseClass，实现了Vue的部分生命周期
   |--- module // 页面
     |--- config.json // 页面的配置文件（包含入口文件字段module-entry，页面标题字段page-title，相对网页访问路径字段redirect-url）

@@ -1,7 +1,7 @@
-import BaseClass from './BaseClass';
+import Context from './Context';
 import {mapActions, mapGetters} from 'vuex';
 
-class BaseModule extends BaseClass {
+class BaseModule extends Context {
   constructor() {
     super();
     let self = this;

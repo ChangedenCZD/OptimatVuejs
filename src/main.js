@@ -2,7 +2,7 @@ import 'es6-promise/auto';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from './store/index';
-import BaseClass from './lib/BaseClass';
+import Context from './lib/Context';
 import BrowserUtils from './utils/BrowserUtils';
 
 Vue.use(VueRouter);
@@ -15,7 +15,7 @@ function beforeCreate(app) {
   BrowserUtils.setWindowSize();
 }
 
-class Entry extends BaseClass {
+class Entry extends Context {
   constructor(myComponent) {
     super();
     this.components = {
