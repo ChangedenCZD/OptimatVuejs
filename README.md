@@ -50,10 +50,10 @@ api.demo(1).then(data => {
   // 调用失败
 });
 ```
-### BaseClass子类
+### Context的子类
 ```js
-import BaseClass from './lib/BaseClass';
-class Module extends BaseClass {
+import Context from './lib/Context';
+class Module extends Context {
   constructor() {
     super();
     this.Api.demo(1).then(data => {
