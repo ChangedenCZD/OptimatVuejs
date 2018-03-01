@@ -1,4 +1,3 @@
-const SCREEN = window.screen;
 let globalApp = null;
 const cssSupports = (() => {
   let div = document.createElement('div');
@@ -24,8 +23,8 @@ const cssSupports = (() => {
 })();
 const setWindowSize = () => {
   globalApp.$store.dispatch('setWindowSize', {
-    height: SCREEN.height,
-    width: SCREEN.width
+    height: window.innerHeight,
+    width: window.innerWidth
   });
 };
 const registerGlobalApp = (app) => {
