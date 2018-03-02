@@ -1,0 +1,10 @@
+.idea/
+node_modules/
+secret/
+dist/
+public/
+static/
+src/entry/
+package-lock.json
+PagesInfo.json
+OptimatVuejs.iml
