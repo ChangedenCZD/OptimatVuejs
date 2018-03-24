@@ -1,13 +1,15 @@
-import Api from '../api';
+const Class = require('./Class');
+const Api = require('../api');
 
-class BaseClass {
-  constructor() {
+class BaseClass extends Class {
+  constructor () {
+    super();
     this.context = {
       Api: Api
     };
   }
 
-  get Api() {
+  get Api () {
     return this.context.Api;
   }
 }

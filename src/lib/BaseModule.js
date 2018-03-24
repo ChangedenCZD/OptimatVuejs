@@ -1,9 +1,11 @@
 import Context from './Context';
 import {mapActions, mapGetters} from 'vuex';
+import {initApp} from '../utils/BrowserUtils';
 
 class BaseModule extends Context {
   constructor() {
     super();
+    BaseModule.computeRemScale();
     let self = this;
     this.app = null;
     this.data = function () {
@@ -34,6 +36,7 @@ class BaseModule extends Context {
   }
 
   onCreate() {
+    initApp(this.app);
   }
 
   onMount() {

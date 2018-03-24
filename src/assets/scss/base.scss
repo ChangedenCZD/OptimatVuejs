@@ -45,6 +45,15 @@ $white: #FFFFFF;
 $orange: #EE8A1F;
 $blue: #00AAEE;
 $zjyx: #06a0f3;
+
+* {
+  font-size: $fontSizeNormal;
+}
+
+body {
+  color: $blackLight;
+}
+
 /**文字颜色*/
 .text-red {
   color: $red;
@@ -398,14 +407,6 @@ $s120: rem(120px);
 
 .mgr20 {
   margin-right: $s20;
-}
-
-* {
-  font-size: $fontSizeNormal;
-}
-
-body {
-  color: $blackLight;
 }
 
 $borderStyle: 1px solid #eee;
