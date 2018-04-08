@@ -114,18 +114,19 @@ function genComponents(components) {
             '../../lib/BaseModule': `${parentPath}lib/BaseModule`
           }
         },
-        {
-          'input': `${TEMPLATE_COMPONENT_FILE_PATH}component.scss`,
-          'output': `${outputFilePath}scss`,
-          'regs': {
-            '../../assets/scss/base': `${parentPath}assets/scss/base`
-          }
-        },
+        // {
+        //   'input': `${TEMPLATE_COMPONENT_FILE_PATH}component.scss`,
+        //   'output': `${outputFilePath}scss`,
+        //   'regs': {
+        //     '../../assets/scss/base': `${parentPath}assets/scss/base`
+        //   }
+        // },
         {
           'input': `${TEMPLATE_COMPONENT_FILE_PATH}component.vue`,
           'output': `${outputFilePath}vue`,
           'regs': {
-            '<section>': `<section class="component-layout ${pathArray.join('-')}-layout">`
+            '<section>': `<section class="component-layout ${pathArray.join('-')}-layout">`,
+            '../../assets/scss/base': `${parentPath}assets/scss/base`
           }
         }
       ]);
