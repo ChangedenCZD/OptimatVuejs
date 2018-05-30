@@ -1,4 +1,37 @@
 # 更新日志
+## 2.2.0
+#### 2018年5月30日17点29分
+>优化api的封装
+```
+GET请求
+new ApiOptions(config.DEMO, GET).setParams({per_page: page}).request();
+
+POST请求
+new ApiOptions(config.DEMO, POST).setData({per_page: page}).request();
+
+设置请求头
+new ApiOptions(config.DEMO, POST).setData({per_page: page}).setHeaders({}).request();
+```
+>easyGen迎来升级
+>>加入快速创建项目功能
+```
+// config.json
+{
+  "project": {
+    "path": "项目相对路径"
+  }
+}
+```
+>>优化component的配置
+```
+// config.json
+{
+  "components": [
+    "组件路径"
+  }
+}
+```
+
 ## 2.1.0
 #### 2018年3月24日11点24分
 ````

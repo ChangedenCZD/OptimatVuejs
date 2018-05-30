@@ -67,6 +67,8 @@ function computeRemScale() {
 function registerGlobalApp(app) {
   globalApp = window.globalApp = app;
   setWindowSize();
+  initApp(app);
+  setCommonParams(app);
 }
 
 function getUA() {
@@ -81,6 +83,12 @@ function initApp(app) {
   app.isUCWeb = /UCBrowser/.test(ua);
   app.isAlipay = /AlipayClient/.test(ua);
   app.isAndroid = /Android/.test(ua);
+  app.isFireFox = /(?:Firefox)/.test(ua);
+  app.isChrome = /(?:Chrome|CriOS)/.test(ua);
+  app.isTablet = /(?:iPad|PlayBook)/.test(ua) || (app.isAndroid && !/(?:Mobile)/.test(ua)) || (app.isFireFox && /(?:Tablet)/.test(ua));
+  app.isPhone = /(?:iPhone)/.test(ua) && !app.isTablet;
+  app.isIOS = /(?:iOS)/.test(ua);
+  app.isPc = !app.isPhone && !app.isAndroid;
   computeRemScale();
 }
 
@@ -122,6 +130,11 @@ function open(url) {
   window.open(url);
 }
 
+function setCommonParams(app) {
+  let query = app.$route.query || {};
+  return query;
+}
+
 module.exports = {
   stdout,
   os,
@@ -136,5 +149,6 @@ module.exports = {
   setTitle,
   to,
   open,
-  computeRemScale
+  computeRemScale,
+  setCommonParams
 };

@@ -1,1 +1,1 @@
-node genFiles.js
+node genFiles2.js

@@ -33,10 +33,10 @@ config.json文件内容为Json字符串。
     |--- const config = require('./config') // 导入接口配置
     |--- module.exports = { // 公开的可调用接口
            getDemo: (page) => { // 接口样例
-             return new ApiOptions(config.DEMO, {}, GET).setParams({per_page: page}).request();
+             return new ApiOptions(config.DEMO, GET).setParams({per_page: page}).request();
            },
            postDemo: (page) => {
-             return new ApiOptions(config.DEMO, {per_page: page}, POST).request();
+             return new ApiOptions(config.DEMO, POST).setData({per_page: page}).request();
            }
          }
 ```

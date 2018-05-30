@@ -1,5 +1,6 @@
 {
   "presets": [
+    "babel-preset-env",
     [
       "env",
       {
@@ -10,7 +11,8 @@
     "es2015"
   ],
   "plugins": [
-    "transform-runtime"
+    "transform-runtime",
+    "transform-es2015-classes"
   ],
   "env": {
     "test": {

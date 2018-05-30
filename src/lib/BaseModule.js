@@ -1,9 +1,8 @@
 import Context from './Context';
-import {mapActions, mapGetters} from 'vuex';
-import {initApp} from '../utils/BrowserUtils';
+import { mapActions, mapGetters } from 'vuex';
 
 class BaseModule extends Context {
-  constructor() {
+  constructor () {
     super();
     BaseModule.computeRemScale();
     let self = this;
@@ -27,37 +26,38 @@ class BaseModule extends Context {
     this.props = [];
   }
 
-  setProps(props) {
+  setProps (props) {
     this.props = props;
   }
 
-  getData() {
+  getData () {
     return {};
   }
 
-  onCreate() {
-    initApp(this.app);
+  onCreate (ctx = this) {
+    BaseModule.BrowserUtils.initApp(ctx.app);
+    BaseModule.BrowserUtils.setCommonParams(ctx.app);
   }
 
-  onMount() {
+  onMount () {
   }
 
-  onUpdate() {
+  onUpdate () {
   }
 
-  setWatch(options) {
+  setWatch (options) {
     this.watch = options || {};
   }
 
-  setMethod(options) {
+  setMethod (options) {
     this.methods = options || {};
   }
 
-  setComponent(options) {
+  setComponent (options) {
     this.components = options || {};
   }
 
-  setCompute(options) {
+  setCompute (options) {
     this.computed = options || {};
   }
 }

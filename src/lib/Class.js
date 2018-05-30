@@ -1,7 +1,11 @@
 const BrowserUtils = require('../utils/BrowserUtils');
-const ObjectSupport = require('../utils/ObjectSupport');
+const clone = require('clone');
 
 class Class {
+  static get BrowserUtils() {
+    return BrowserUtils;
+  }
+
   static to(url) {
     BrowserUtils.to(url);
   }
@@ -35,7 +39,7 @@ class Class {
   }
 
   static clone(object) {
-    return ObjectSupport.clone(object);
+    return clone(object);
   }
 
   static stdout(message) {

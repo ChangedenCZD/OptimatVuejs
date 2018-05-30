@@ -8,6 +8,6 @@ const DELETE = 'DELETE';
 const UPDATE = 'UPDATE';
 module.exports = {
   demo: (page) => {
-    return new ApiOptions(config.DEMO, {per_page: page}, GET).request();
+    return new ApiOptions(config.DEMO, GET).setParams({per_page: page}).request();
   }
 };

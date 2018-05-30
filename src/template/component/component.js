@@ -19,6 +19,7 @@ class Component extends BaseModule {
   }
 
   onCreate() {
+    super.onCreate();
   }
 
   onMount() {

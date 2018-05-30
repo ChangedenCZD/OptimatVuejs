@@ -3,12 +3,18 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="format-detection" content="telephone=no,email=no,adress=no">
-  <meta http-equiv="Cache-Control" content="no-cache"/>
-  <meta http-equiv="Pragma" content="no-cache"/>
-  <meta http-equiv="Expires" content="0"/>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable"
+        content="yes">
+  <meta name="format-detection"
+        content="telephone=no,email=no,adress=no">
+  <meta http-equiv="Cache-Control"
+        content="no-cache"/>
+  <meta http-equiv="Pragma"
+        content="no-cache"/>
+  <meta http-equiv="Expires"
+        content="0"/>
   <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 
@@ -16,5 +22,10 @@
 <div id="app"></div>
 </body>
 
-<span id="document-timestamp" style="display: none;"><%= htmlWebpackPlugin.options.timestamp %></span>
+
+<span id="document-timestamp"
+      style="display: none;"><%= htmlWebpackPlugin.options.timestamp %></span>
+<script>
+  console.log('This document was create at ' + window.document.querySelector('#document-timestamp').innerText);
+</script>
 </html>

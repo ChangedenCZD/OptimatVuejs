@@ -9,11 +9,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs');
 const md5 = require('md5');
 const srcDir = path.resolve(__dirname, '../src');
-const entryRootPath = path.resolve(srcDir, './entry');
+const entryRootPath = path.resolve(srcDir, `./entry/${process.env.NODE_ENV || 'def'}`);
 let entriesParser = getEntry(srcDir + '/module/**/config.json');
 let entries = entriesParser[0];
 let modulePageTitleList = entriesParser[1] || {};
 let dirname = __dirname;
+const componentDirs = glob.sync(path.resolve(dirname, '../node_modules/') + '/optimat-vue-**');
 
 // 获取入口文件
 function getEntry (globPath) {
@@ -31,7 +32,7 @@ function getEntry (globPath) {
     const modulePath = path.relative(entryRootPath, path.resolve(filePath, '../') + '/module.vue').replace(/\\/g, '/');
     let entryFilePath = path.resolve(entryRootPath, `./${md5(redirectUrl)}.js`);
     fs.writeFileSync(entryFilePath, `'use strict';
-import {createEntry} from '../main.js';
+import {createEntry} from '../../main.js';
 import myComponent from '${modulePath}';
 const app = createEntry(myComponent);
 // Update at ${new Date()}
@@ -114,7 +115,7 @@ module.exports = {
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',
         enforce: 'pre',
-        include: [resolve('src'), resolve('test')],
+        include: [resolve('src'), resolve('test')].concat(componentDirs),
         options: {
           formatter: require('eslint-friendly-formatter'),
           emitWarning: !config.dev.showEslintErrorsInOverlay
@@ -128,7 +129,10 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test')]
+        include: [resolve('src'), resolve('test')].concat(componentDirs),
+        options: {
+          presets: ['es2015']
+        }
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -157,4 +161,6 @@ module.exports = {
     ]
   },
   plugins: createHtml(),
+  bail: true,
+  cache: true
 };

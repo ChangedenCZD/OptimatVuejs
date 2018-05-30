@@ -3,17 +3,9 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from './store/index';
 import Context from './lib/Context';
-import BrowserUtils from './utils/BrowserUtils';
 
 Vue.use(VueRouter);
-const router = new VueRouter({mode: 'history'});
 require('assets/css/reset.css');
-
-function beforeCreate(app) {
-  console.log('beforeCreate');
-  BrowserUtils.registerGlobalApp(app);
-  BrowserUtils.setWindowSize();
-}
 
 class Entry extends Context {
   constructor(myComponent) {
@@ -23,26 +15,22 @@ class Entry extends Context {
     };
     this.el = '#app';
     this.store = store;
-    this.router = router;
+    this.router = new VueRouter({mode: 'history'});
     this.created = function () {
-      let self = this;
+      const self = this;
       Vue.nextTick(() => {
-        beforeCreate(self);
+        self.$nextTick(() => {
+          Entry.BrowserUtils.registerGlobalApp(self);
+          Entry.BrowserUtils.setWindowSize();
+        });
       });
     };
     this.template = '<myComponent></myComponent>';
   }
 }
 
-function createEntry(myComponent) {
-  return new Vue(new Entry(myComponent));
-}
-
 module.exports = {
-  store: store,
-  router: router,
-  beforeCreate: beforeCreate,
-  Vue: Vue,
-  Entry: Entry,
-  createEntry: createEntry
+  createEntry: (myComponent) => {
+    return new Vue(new Entry(myComponent));
+  }
 };

@@ -1,4 +1,4 @@
-import {BaseModule, mapGetters, mapActions} from '../../lib/BaseModule';
+import {BaseModule, mapActions, mapGetters} from '../../lib/BaseModule';
 
 class Module extends BaseModule {
   constructor() {
@@ -18,6 +18,7 @@ class Module extends BaseModule {
   }
 
   onCreate() {
+    super.onCreate(this);
   }
 
   onMount() {

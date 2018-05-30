@@ -1,16 +1,21 @@
+/* eslint-disable no-return-await */
 const axios = require('axios');
 
 class ApiOptions {
-  constructor(url, data, method) {
+  constructor(url, method) {
     this.globalApp = null;
     this.isSilence = false;
     this.options = {
       url,
-      data,
       method,
       timeout: 60000,
       maxContentLength: 3145728
     };
+  }
+
+  setData(data) {
+    this.options.data = data || {};
+    return this;
   }
 
   /**
@@ -26,6 +31,11 @@ class ApiOptions {
    * */
   setSilence(isSilence) {
     this.isSilence = isSilence || false;
+    return this;
+  }
+
+  setHeaders(headers) {
+    this.options.headers = headers || {};
     return this;
   }
 
@@ -51,22 +61,23 @@ class ApiOptions {
     }
   }
 
-  request() {
+  request(returnPromise = false) {
     let self = this;
     self.getGlobalApp();
     let isSilence = self.isSilence;
     if (!isSilence) {
       self.showLoading();
     }
-    return new Promise((resolve, reject) => {
-      axios.request(self.options).then(response => {
+    const promise = new Promise((resolve, reject) => {
+      const options = self.options;
+      axios.request(options).then(response => {
         if (!isSilence) {
           self.hideLoading();
         }
-        if (response.status === 200) {
+        if (response.status < 400) {
           resolve(response.data);
         } else {
-          reject(response);
+          throw new Error(response);
         }
       }).catch(err => {
         if (!isSilence) {
@@ -75,6 +86,13 @@ class ApiOptions {
         reject(err);
       });
     });
+    if (returnPromise) {
+      return promise;
+    } else {
+      return (async () => {
+        return await promise;
+      })();
+    }
   }
 }
 
