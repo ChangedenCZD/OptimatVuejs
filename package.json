@@ -23,6 +23,7 @@
     "babel-preset-es2015": "^6.24.1",
     "co": "^4.6.0",
     "dateformat": "^3.0.3",
+    "decamelize": "^2.0.0",
     "es6-promise": "^4.2.4",
     "glob": "^7.1.2",
     "md5": "^2.2.1",

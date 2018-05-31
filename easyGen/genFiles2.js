@@ -2,6 +2,7 @@ const shell = require('shelljs');
 const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
+const decamelize = require('decamelize');
 const TextUtils = require('../src/utils/TextUtils');
 const config = require('./config');
 
@@ -15,7 +16,6 @@ function gen() {
 function createProject() {
   const project = config.project || {};
   const projectPath = project.path;
-  console.log(projectPath, TextUtils.isEmpty(projectPath));
   if (!TextUtils.isEmpty(projectPath)) {
     const projectAbsPath = path.resolve(__dirname, '../..', projectPath);
     const COPY_FILES = glob.sync(`${path.resolve(__dirname, '..')}/**/*.*`).concat(glob.sync(`${path.resolve(__dirname, '..')}/**/.*`)).filter(item => {
@@ -38,64 +38,59 @@ function genModules(projectPath) {
     let redirectUrl;
     let modulePath = redirectUrl = module['url-path'];
     if (modulePath) {
+      const MODULE_TEMPLATE_BASE_PATH = './src/template/module/';
       modulePath = path.resolve(projectPath, 'src/module', modulePath.startsWith('/') ? (modulePath.substr(1)) : modulePath);
       shell.mkdir('-p', modulePath);
       let relativePath = `${path.relative(modulePath, `${projectPath}/src`)}/`.replace(/\\/g, '/');
-      writeModuleFile('./src/template/module/module.js', modulePath, {
+      writeModuleFile(`${MODULE_TEMPLATE_BASE_PATH}module.js`, modulePath, {
         '../../lib/BaseModule': `${relativePath}lib/BaseModule`
       }, 'js');
-      writeModuleFile('./src/template/module/module.scss', modulePath, {
+      writeModuleFile(`${MODULE_TEMPLATE_BASE_PATH}module.scss`, modulePath, {
         '../../assets/scss/base': `${relativePath}assets/scss/base`
       }, 'scss');
-      writeModuleFile('./src/template/module/module.vue', modulePath, {
-        '<section>': `<section class="main-layout ${redirectUrl.split('/').filter(item => {
-          return !!item;
-        }).join('-')}-layout">`
+      writeModuleFile(`${MODULE_TEMPLATE_BASE_PATH}module.vue`, modulePath, {
+        '<section>': `<section class="main-layout ${genFileClass(redirectUrl)}">`
       }, 'vue');
-      writeModuleFile('./src/template/module/config.json', modulePath, {
-        'redirectUrl': `${redirectUrl}`,
+      writeFileForTemplate(`${MODULE_TEMPLATE_BASE_PATH}config.json`, modulePath, {
+        'redirectUrl': `${redirectUrl.startsWith('/') ? redirectUrl : `/${redirectUrl}`}`,
         'pageTitle': `${module['page-title']}`
-      }, 'json');
+      }, 'config', 'json');
     }
   });
 }
 
 function writeModuleFile(tempFile, targetPath, replaceRegexs, extName) {
-  let content = fs.readFileSync(path.resolve(__dirname, '..', tempFile), 'utf8');
-  Object.keys(replaceRegexs).forEach(key => {
-    content = content.replace(key, replaceRegexs[key]);
-  });
-  writeFile(`${targetPath}/module`, content, extName);
+  writeFileForTemplate(tempFile, targetPath, replaceRegexs, 'module', extName);
 }
 
 function genComponents(projectPath) {
   (config.components || []).forEach(component => {
     let componentPath = component;
     if (componentPath) {
+      const COMPONENT_TEMPLATE_BASE_PATH = './src/template/component/';
       componentPath = path.resolve(projectPath, 'src/components', componentPath.startsWith('/') ? (componentPath.substr(1)) : componentPath);
       shell.mkdir('-p', componentPath);
       let relativePath = `${path.relative(componentPath, `${projectPath}/src`)}/`.replace(/\\/g, '/');
-      writeComponentFile('./src/template/component/component.js', componentPath, {
+      writeComponentFile(`${COMPONENT_TEMPLATE_BASE_PATH}component.js`, componentPath, {
         '../../lib/BaseModule': `${relativePath}lib/BaseModule`
       }, 'js');
-      writeComponentFile('./src/template/component/component.vue', componentPath, {
-        '<section>': `<section class="component-layout ${component.split('/').filter(item => {
-          return !!item;
-        }).join('-')}-layout">`,
+      writeComponentFile(`${COMPONENT_TEMPLATE_BASE_PATH}component.vue`, componentPath, {
+        '<section>': `<section class="component-layout ${genFileClass(component)}">`,
         '../../assets/scss/base': `${relativePath}assets/scss/base`
       }, 'vue');
-      let content = fs.readFileSync(path.resolve(__dirname, '..', './src/template/component/index.js'), 'utf8');
+      let content = fs.readFileSync(path.resolve(__dirname, '..', `${COMPONENT_TEMPLATE_BASE_PATH}index.js`), 'utf8');
       writeFile(`${componentPath}/index`, content, 'js');
     }
   });
 }
 
 function writeComponentFile(tempFile, targetPath, replaceRegexs, extName) {
+  writeFileForTemplate(tempFile, targetPath, replaceRegexs, 'components', extName);
+}
+
+function writeFileForTemplate(tempFile, targetPath, replaceRegexs, targetFileName, extName) {
   let content = fs.readFileSync(path.resolve(__dirname, '..', tempFile), 'utf8');
-  Object.keys(replaceRegexs).forEach(key => {
-    content = content.replace(key, replaceRegexs[key]);
-  });
-  writeFile(`${targetPath}/components`, content, extName);
+  writeFile(`${targetPath}/${targetFileName}`, replaceContent(content, replaceRegexs), extName);
 }
 
 function resetConfigFile(projectPath) {
@@ -114,8 +109,27 @@ function resetConfigFile(projectPath) {
 }`, 'json');
 }
 
+function replaceContent(content, replaceRegexs) {
+  Object.keys(replaceRegexs).forEach(key => {
+    content = content.replace(key, replaceRegexs[key]);
+  });
+  return content;
+}
+
 function writeFile(pagePath, fileContent, extName) {
   fs.writeFileSync(path.resolve(__dirname, `${pagePath}.${extName}`), fileContent, 'utf8');
+}
+
+function genFileClass(filePath) {
+  let splitPath = [];
+  filePath.split('/').filter(item => {
+    return !!item;
+  }).forEach(item => {
+    splitPath.push(decamelize(item, '-'));
+  });
+  let result = splitPath.join('-');
+  const key = '-layout';
+  return `${result}${result.endsWith(key) ? '' : key}`;
 }
 
 gen();
