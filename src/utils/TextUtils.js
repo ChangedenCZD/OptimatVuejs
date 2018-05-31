@@ -25,7 +25,7 @@ function fakePhone(phone) {
 }
 
 function isEmpty(str) {
-  return str.length === 0;
+  return !str || str.length === 0;
 }
 
 module.exports = {

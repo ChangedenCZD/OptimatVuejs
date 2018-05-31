@@ -5,10 +5,6 @@ const glob = require('glob');
 const TextUtils = require('../src/utils/TextUtils');
 const config = require('./config');
 
-const COPY_FILES = glob.sync(`${path.resolve(__dirname, '..')}/**/*.*`).concat(glob.sync(`${path.resolve(__dirname, '..')}/**/.*`)).filter(item => {
-  return !(/(package-lock|node_modules|\.idea|\.git|\.svn|PagesInfo.json|dist)/g.test(item)) || /(\.gitignore)/g.test(item);
-});
-
 function gen() {
   const projectPath = createProject();
   genModules(projectPath);
@@ -19,8 +15,12 @@ function gen() {
 function createProject() {
   const project = config.project || {};
   const projectPath = project.path;
+  console.log(projectPath, TextUtils.isEmpty(projectPath));
   if (!TextUtils.isEmpty(projectPath)) {
     const projectAbsPath = path.resolve(__dirname, '../..', projectPath);
+    const COPY_FILES = glob.sync(`${path.resolve(__dirname, '..')}/**/*.*`).concat(glob.sync(`${path.resolve(__dirname, '..')}/**/.*`)).filter(item => {
+      return !(/(package-lock|node_modules|\.idea|\.git|\.svn|PagesInfo.json|dist)/g.test(item)) || /(\.gitignore)/g.test(item);
+    });
     COPY_FILES.forEach(filePath => {
       const relativePath = path.relative(path.resolve(__dirname, '..'), filePath);
       const targetPath = path.resolve(projectAbsPath, relativePath);
