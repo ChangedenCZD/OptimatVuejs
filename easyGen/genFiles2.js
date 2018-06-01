@@ -85,7 +85,7 @@ function genComponents(projectPath) {
 }
 
 function writeComponentFile(tempFile, targetPath, replaceRegexs, extName) {
-  writeFileForTemplate(tempFile, targetPath, replaceRegexs, 'components', extName);
+  writeFileForTemplate(tempFile, targetPath, replaceRegexs, 'component', extName);
 }
 
 function writeFileForTemplate(tempFile, targetPath, replaceRegexs, targetFileName, extName) {

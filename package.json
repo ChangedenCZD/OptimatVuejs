@@ -1,6 +1,6 @@
 {
   "name": "optimat-vuejs",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "一个基于Vuejs+Webpack定义了开发规范的网页开发框架。",
   "scripts": {
     "dev": "node --max-old-space-size=4096 build/dev-server.js",
@@ -21,6 +21,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "babel-preset-es2015": "^6.24.1",
+    "clone": "^2.1.1",
     "co": "^4.6.0",
     "dateformat": "^3.0.3",
     "decamelize": "^2.0.0",
